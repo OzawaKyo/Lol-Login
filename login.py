@@ -8,7 +8,7 @@ keyboard = Controller()
 #the login function
 def login(x,y):
     subprocess.Popen('ENTER THE LEAGUE CLIENT LOCATION\\LeagueClient.exe') # <-- the league client directory 
-    time.sleep(10)
+    time.sleep(10) #<-- You can also change the "10" seconde to the time it takes your computer to launch the league client
     keyboard.type(x)
     keyboard.press(Key.tab)
     keyboard.release(Key.tab)
