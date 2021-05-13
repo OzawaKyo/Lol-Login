@@ -5,10 +5,15 @@ from dearpygui.core import *
 from dearpygui.simple import *
 keyboard = Controller()
 
+
+
 #the login function
 def login(x,y):
-    subprocess.Popen('ENTER THE LEAGUE CLIENT LOCATION\\LeagueClient.exe') # <-- the league client directory 
-    time.sleep(10) #<-- You can also change the "10" seconde to the time it takes your computer to launch the league client
+    bb=open("clientDirectory.txt", "r")
+    fileLines = bb.readlines()
+    clientDirectory = fileLines[0].strip()
+    subprocess.Popen( clientDirectory + '\\LeagueClient.exe' ) # <-- the league client directory 
+    time.sleep(10)
     keyboard.type(x)
     keyboard.press(Key.tab)
     keyboard.release(Key.tab)
@@ -71,6 +76,26 @@ def clear():
     with open("passwordsSave.txt","w") as g2:
         g2.close()    
 
+def directory_picker(sender, data):
+    select_directory_dialog(callback=apply_selected_directory)
+
+def apply_selected_directory(sender, data):
+    log_debug(data)  # so we can see what is inside of data
+    directory = data[0]
+    folder = data[1]
+    set_value("directory", directory)
+    set_value("folder", folder)
+    set_value("folder_path", f"{directory}\\{folder}")
+    k=open("clientDirectory.txt","a+")
+    k.write(directory + "\n")
+        
+def clearDirectory():
+    with open("clientDirectory.txt","w") as gg :
+        gg.close()
+
+    
+show_logger()        
+
 #window
 set_main_window_size(540,720)
 set_global_font_scale(1.25)
@@ -81,6 +106,12 @@ set_style_window_padding(30, 30)
 with window("Lol login", width=520, height=677):
     print("running ...")
     set_window_pos("Lol login",0, 0)
+    add_text("Choose the directory file of the league client :" , color=[232,163,33])
+    add_spacing(count=12)
+    add_text("exemple : C:\\Riot Games\\League of Legends ")
+    add_spacing(count=12)
+    add_button("Directory Selector", callback=directory_picker)
+    add_spacing(count=12)
     add_separator()
     add_spacing(count=12)
     add_text("Enter you id:", color = [232,163,33])
@@ -89,7 +120,7 @@ with window("Lol login", width=520, height=677):
     add_spacing(count=12)
     add_text("Enter you password:", color = [232,163,33])
     add_spacing(count=12)
-    add_input_text("password",width=400, default_value='')
+    add_input_text("password",width=390, default_value='')
     add_spacing(count=12)
     add_button("Add account", callback=addAccount)
     add_spacing(count=12)
@@ -112,6 +143,10 @@ with window("Lol login", width=520, height=677):
     add_separator()
     add_spacing(count=12)
     add_button("clear accounts",callback=clear)
+    add_spacing(count=12)
+    add_separator()
+    add_spacing(count=12)
+    add_button("clear directory",callback=clearDirectory)
 
 
 
