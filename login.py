@@ -7,7 +7,7 @@ keyboard = Controller()
 
 #the login function
 def login(x,y):
-    subprocess.Popen('C:\\Riot Games\\League of Legends\\LeagueClient.exe') # <-- the league client directory 
+    subprocess.Popen('ENTER THE LEAGUE CLIENT LOCATION\\LeagueClient.exe') # <-- the league client directory 
     time.sleep(10)
     keyboard.type(x)
     keyboard.press(Key.tab)
